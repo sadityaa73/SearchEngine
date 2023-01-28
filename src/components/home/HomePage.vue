@@ -5,16 +5,16 @@
         <input
           type="search"
           placeholder="search"
-          v-model="search"
+          v-model="searchText"
           class="searchBox"
         />
-        <div class="serchIcon">
-          <img src="../../assets/search.png" alt="search" class="icon" />
-        </div>
       </div>
-      <div class="searchResult" v-if="result.length != 0">
-        <ul class="result">
-          <li>list</li>
+      <div
+        class="searchResult"
+        v-if="result.length != 0 && this.text.length > 0"
+      >
+        <ul class="result" v-for="(result, index) in result" :key="index">
+          <li>{{ result.name }}</li>
           <hr />
         </ul>
       </div>
@@ -27,11 +27,48 @@ export default {
   components: {},
   data() {
     return {
-      search: "",
+      searchText: "",
       result: [],
+      allData: [
+        { name: "aditya" },
+        { name: "ravi" },
+        { name: "ram" },
+        { name: "lakshman" },
+        { name: "deepak" },
+        { name: "dhananjay" },
+        { name: "harpal" },
+        { name: "jethalal" },
+        { name: "akash" },
+        { name: "modi" },
+        { name: "naja" },
+        { name: "arun" },
+        { name: "rahul" },
+        { name: "darshan" },
+        { name: "divyesh" },
+        { name: "vishal" },
+        { name: "parwez" },
+        { name: "nikhil" },
+        { name: "gaurav" },
+      ],
+      text: "",
     };
   },
-  methods: {},
+  created() {},
+  watch: {
+    searchText(newVal, oldval) {
+      this.text = newVal;
+      this.searchByFilter(this.allData);
+    },
+  },
+  computed: {},
+  methods: {
+    searchByFilter(array) {
+      if (this.text != "") {
+        let result = array.filter((array) => array.name.includes(this.text));
+        this.result = result;
+      }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -65,7 +102,7 @@ export default {
   display: flex;
 }
 .searchBox {
-  width: 86%;
+  width: 100%;
   text-align: center;
   font-size: 16px;
   font-family: helvetica;
